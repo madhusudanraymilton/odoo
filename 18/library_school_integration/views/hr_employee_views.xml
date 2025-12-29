@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit Employee Form View -->
+    <record id="view_employee_form_library" model="ir.ui.view">
+        <field name="name">hr.employee.form.library</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="wk_school_management.view_employee_form_inherit"/>
+        <field name="arch" type="xml">
+            
+            <!-- Add Library buttons in header -->
+            <xpath expr="//header" position="inside">
+                <button name="action_create_library_member" 
+                        string="Add to Library" 
+                        type="object" 
+                        class="oe_highlight"
+                        invisible="not is_teacher or library_member_id"
+                        groups="library_management.group_library_admin"/>
+                <button name="action_remove_library_member" 
+                        string="Remove from Library" 
+                        type="object" 
+                        class="btn-warning"
+                        invisible="not library_member_id"
+                        groups="library_management.group_library_admin"
+                        confirm="Are you sure you want to remove library access?"/>
+            </xpath>
+            
+            <!-- Add stat buttons -->
+            <xpath expr="//div[@class='oe_button_box']" position="inside">
+                <button name="action_view_library_member" 
+                        type="object"
+                        class="oe_stat_button" 
+                        icon="fa-id-card"
+                        invisible="not library_member_id">
+                    <span class="o_stat_text">Library Member</span>
+                </button>
+                
+                <button name="action_view_borrowings" 
+                        type="object"
+                        class="oe_stat_button" 
+                        icon="fa-book"
+                        invisible="not library_member_id or active_borrowings_count == 0">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="active_borrowings_count"/>
+                        </span>
+                        <span class="o_stat_text">Borrowings</span>
+                    </div>
+                </button>
+                
+                <button name="action_view_library_fines" 
+                        type="object"
+                        class="oe_stat_button" 
+                        icon="fa-money"
+                        invisible="not library_member_id or unpaid_library_fines == 0">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="unpaid_library_fines" widget="monetary"/>
+                        </span>
+                        <span class="o_stat_text">Unpaid Fines</span>
+                    </div>
+                </button>
+            </xpath>
+            
+            <!-- Add library info fields -->
+            <xpath expr="//page[@name='public']" position="after">
+                <page name="library" string="Library" invisible="not is_teacher">
+                    <group>
+                        <group string="Library Membership">
+                            <field name="library_member_id" readonly="1"/>
+                            <field name="is_library_member" readonly="1"/>
+                            <field name="can_borrow_books" widget="boolean" readonly="1"/>
+                        </group>
+                        <group string="Library Statistics">
+                            <field name="total_books_borrowed_count" readonly="1"/>
+                            <field name="active_borrowings_count" readonly="1"/>
+                            <field name="unpaid_library_fines" widget="monetary" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+            
+        </field>
+    </record>
+
+    <!-- Add search filters -->
+    <record id="view_employee_filter_library" model="ir.ui.view">
+        <field name="name">hr.employee.filter.library</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_filter"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//search" position="inside">
+                <separator/>
+                <filter name="library_members" 
+                        string="Library Members" 
+                        domain="[('is_library_member', '=', True)]"/>
+                <filter name="can_borrow" 
+                        string="Can Borrow Books" 
+                        domain="[('can_borrow_books', '=', True)]"/>
+                <filter name="has_fines" 
+                        string="Has Library Fines" 
+                        domain="[('unpaid_library_fines', '>', 0)]"/>
+            </xpath>
+            
+        </field>
+    </record>
+
+</odoo>

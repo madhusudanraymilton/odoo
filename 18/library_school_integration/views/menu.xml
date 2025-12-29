@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Student Library Members Action -->
+    <record id="action_library_student_members" model="ir.actions.act_window">
+        <field name="name">Student Members</field>
+        <field name="res_model">library.member</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('membership_type', '=', 'student')]</field>
+        <field name="context">{
+            'default_membership_type': 'student',
+            'search_default_students_only': 1
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No student library members yet
+            </p>
+            <p>
+                Students are automatically added as library members when created.
+            </p>
+        </field>
+    </record>
+
+    <!-- Teacher Library Members Action -->
+    <record id="action_library_teacher_members" model="ir.actions.act_window">
+        <field name="name">Teacher Members</field>
+        <field name="res_model">library.member</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('membership_type', '=', 'teacher')]</field>
+        <field name="context">{
+            'default_membership_type': 'teacher',
+            'search_default_teachers_only': 1
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No teacher library members yet
+            </p>
+            <p>
+                Add teachers as library members from the Teachers menu.
+            </p>
+        </field>
+    </record>
+
+    <!-- Add menu items under Library root menu -->
+    <menuitem id="menu_library_student_members"
+              name="Student Members"
+              parent="library_management.menu_library_members"
+              action="action_library_student_members"
+              sequence="10"/>
+
+    <menuitem id="menu_library_teacher_members"
+              name="Teacher Members"
+              parent="library_management.menu_library_members"
+              action="action_library_teacher_members"
+              sequence="20"/>
+
+</odoo>

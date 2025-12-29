@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===============================
+         Library Member Form View
+         =============================== -->
+    <record id="view_library_member_form_school" model="ir.ui.view">
+        <field name="name">library.member.form.school</field>
+        <field name="model">library.member</field>
+        <field name="inherit_id" ref="library_management.view_library_member_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Create button box if missing -->
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_button_box" name="button_box"/>
+            </xpath>
+
+            <!-- Stat buttons -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+
+                <button name="action_view_student"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-graduation-cap"
+                        invisible="not student_id">
+                    <span class="o_stat_text">View Student</span>
+                </button>
+
+                <button name="action_view_employee"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-user-circle"
+                        invisible="not employee_id">
+                    <span class="o_stat_text">View Employee</span>
+                </button>
+
+            </xpath>
+
+            <!-- School field -->
+            <xpath expr="//field[@name='membership_type']" position="after">
+                <field name="school_id" readonly="1"/>
+            </xpath>
+
+            <!-- School Information tab -->
+            <xpath expr="//notebook" position="inside">
+                <page name="school_info"
+                      string="School Information"
+                      invisible="not student_id and not employee_id">
+                    <group>
+                        <group string="Student Information" invisible="not student_id">
+                            <field name="student_id" readonly="1"/>
+                            <field name="grade_id" readonly="1"/>
+                            <field name="enrollment_id" readonly="1"/>
+                        </group>
+                        <group string="Teacher Information" invisible="not employee_id">
+                            <field name="employee_id" readonly="1"/>
+                            <field name="is_teacher" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ===============================
+         Library Member Tree View
+         =============================== -->
+    <record id="view_library_member_tree_school" model="ir.ui.view">
+        <field name="name">library.member.tree.school</field>
+        <field name="model">library.member</field>
+        <field name="inherit_id" ref="library_management.view_library_member_tree"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='membership_type']" position="after">
+                <field name="school_id" optional="show"/>
+                <field name="grade_id" optional="hide"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ===============================
+         Library Member Search View
+         =============================== -->
+    <!--<record id="view_library_member_search_school" model="ir.ui.view">
+        <field name="name">library.member.search.school</field>
+        <field name="model">library.member</field>-->
+
+        <!-- 🔴 FIX THIS XML ID -->
+       <!-- <field name="inherit_id"
+               ref="library_management.ACTUAL_SEARCH_VIEW_ID"/>
+
+        <field name="arch" type="xml">
+
+            <xpath expr="//search" position="inside">
+                <field name="student_id"/>
+                <field name="employee_id"/>
+                <field name="school_id"/>
+                <field name="grade_id"/>
+
+                <separator/>
+
+                <filter name="students_only"
+                        string="Students Only"
+                        domain="[('student_id', '!=', False)]"/>
+
+                <filter name="teachers_only"
+                        string="Teachers Only"
+                        domain="[('employee_id', '!=', False)]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="group_by_school"
+                            string="School"
+                            context="{'group_by': 'school_id'}"/>
+                    <filter name="group_by_grade"
+                            string="Grade"
+                            context="{'group_by': 'grade_id'}"/>
+                </group>
+            </xpath>
+
+        </field>
+    </record>-->
+
+</odoo>

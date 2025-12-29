@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===============================
+         Student Form View Inheritance
+         =============================== -->
+    <record id="student_student_form_library" model="ir.ui.view">
+        <field name="name">student.student.form.library</field>
+        <field name="model">student.student</field>
+        <field name="inherit_id" ref="wk_school_management.student_student_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Header button -->
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_view_library_member"
+                            type="object"
+                            string="View Library Member"
+                            class="oe_highlight"
+                            invisible="not library_member_id"/>
+                </header>
+            </xpath>
+
+            <!-- Create button box (parent view does NOT have one) -->
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_button_box" name="button_box"/>
+            </xpath>
+
+            <!-- Library stat buttons -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+
+                <button name="action_view_borrowings"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-book"
+                        invisible="not library_member_id or active_borrowings_count == 0">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="active_borrowings_count"/>
+                        </span>
+                        <span class="o_stat_text">Borrowings</span>
+                    </div>
+                </button>
+
+                <button name="action_view_library_fines"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-money"
+                        invisible="not library_member_id or unpaid_library_fines == 0">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="unpaid_library_fines" widget="monetary"/>
+                        </span>
+                        <span class="o_stat_text">Unpaid Fines</span>
+                    </div>
+                </button>
+
+            </xpath>
+
+            <!-- Library Information (NO string-based XPath) -->
+            <xpath expr="//notebook/page[last()]/group" position="inside">
+                <group string="Library Information">
+                    <field name="library_member_id" readonly="1"/>
+                    <field name="can_borrow_books"/>
+                    <field name="total_books_borrowed_count"/>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ===============================
+         Student Kanban View
+         =============================== -->
+    <record id="student_student_kanban_library" model="ir.ui.view">
+        <field name="name">student.student.kanban.library</field>
+        <field name="model">student.student</field>
+        <field name="inherit_id" ref="wk_school_management.student_student_kanban"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//kanban" position="inside">
+                <field name="library_member_id"/>
+                <field name="can_borrow_books"/>
+                <field name="unpaid_library_fines"/>
+            </xpath>
+
+            <xpath expr="//main" position="inside">
+                <div t-if="record.library_member_id.raw_value" class="mt-2">
+                    <span class="badge bg-success" t-if="record.can_borrow_books.raw_value">
+                        <i class="fa fa-book"/> Can Borrow
+                    </span>
+                    <span class="badge bg-danger" t-if="not record.can_borrow_books.raw_value">
+                        <i class="fa fa-ban"/> Cannot Borrow
+                    </span>
+                    <span class="badge bg-warning"
+                          t-if="record.unpaid_library_fines.raw_value &gt; 0">
+                        <i class="fa fa-money"/> Fine:
+                        <field name="unpaid_library_fines" widget="monetary"/>
+                    </span>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ===============================
+         Student Search View
+         =============================== -->
+    <record id="student_student_search_library" model="ir.ui.view">
+        <field name="name">student.student.search.library</field>
+        <field name="model">student.student</field>
+        <field name="inherit_id" ref="wk_school_management.student_student_search"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//search" position="inside">
+                <separator/>
+                <filter name="can_borrow"
+                        string="Can Borrow Books"
+                        domain="[('can_borrow_books', '=', True)]"/>
+                <filter name="has_fines"
+                        string="Has Library Fines"
+                        domain="[('unpaid_library_fines', '>', 0)]"/>
+                <filter name="active_borrowings"
+                        string="Has Active Borrowings"
+                        domain="[('active_borrowings_count', '>', 0)]"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
