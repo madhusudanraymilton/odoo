@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Borrowing Confirmation -->
+    <record id="email_template_borrowing_confirmation" model="mail.template">
+        <field name="name">Library: Borrowing Confirmation</field>
+        <field name="model_id" ref="model_library_borrowing"/>
+        <field name="subject">Book Borrowing Confirmation - {{ object.book_id.title }}</field>
+        <field name="email_from">{{ object.create_uid.email_formatted or user.email_formatted or 'noreply@library.com' }}</field>
+        <field name="email_to">{{ object.member_id.email }}</field>
+        <field name="body_html" type="html">
+            <![CDATA[
+            <div style="font-family: Arial, sans-serif; font-size: 14px;">
+                <h2 style="color:#00A09D;">Book Borrowing Confirmation</h2>
+                <p>Dear <strong>{{ object.member_id.name }}</strong>,</p>
+
+                <p>You have successfully borrowed the following book:</p>
+
+                <table width="100%" style="border-collapse:collapse;">
+                    <tr>
+                        <td><strong>Book Title</strong></td>
+                        <td>{{ object.book_id.title }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ISBN</strong></td>
+                        <td>{{ object.book_id.isbn }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Borrow Date</strong></td>
+                        <td>{{ object.borrow_date }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Due Date</strong></td>
+                        <td>{{ object.due_date }}</td>
+                    </tr>
+                </table>
+
+                <p style="color:#d9534f;">
+                    Please return the book on or before the due date to avoid fines.
+                </p>
+
+                <p>Best regards,<br/>Library Management System</p>
+            </div>
+            ]]>
+        </field>
+    </record>
+
+    <!-- Overdue Notification -->
+    <record id="email_template_overdue_notification" model="mail.template">
+        <field name="name">Library: Overdue Book Notification</field>
+        <field name="model_id" ref="model_library_borrowing"/>
+        <field name="subject">Overdue Book Reminder - {{ object.book_id.title }}</field>
+        <field name="email_from">{{ object.create_uid.email_formatted or user.email_formatted or 'noreply@library.com' }}</field>
+        <field name="email_to">{{ object.member_id.email }}</field>
+        <field name="body_html" type="html">
+            <![CDATA[
+            <div style="font-family: Arial, sans-serif;">
+                <h2 style="color:#d9534f;">Overdue Book Reminder</h2>
+
+                <p>Dear <strong>{{ object.member_id.name }}</strong>,</p>
+
+                <p>The following book is overdue:</p>
+
+                <ul>
+                    <li><strong>Book:</strong> {{ object.book_id.title }}</li>
+                    <li><strong>Due Date:</strong> {{ object.due_date }}</li>
+                    <li><strong>Days Overdue:</strong> {{ object.days_overdue }}</li>
+                    <li><strong>Current Fine:</strong> {{ '%.2f' % object.fine_amount }}</li>
+                </ul>
+
+                <p>Please return the book as soon as possible.</p>
+
+                <p>Library Management System</p>
+            </div>
+            ]]>
+        </field>
+    </record>
+
+    <!-- Fine Notification -->
+    <record id="email_template_fine_notification" model="mail.template">
+        <field name="name">Library: Fine Notification</field>
+        <field name="model_id" ref="model_library_fine"/>
+        <field name="subject">Library Fine - {{ object.borrowing_id.book_id.title }}</field>
+        <field name="email_from">{{ object.create_uid.email_formatted or user.email_formatted or 'noreply@library.com' }}</field>
+        <field name="email_to">{{ object.member_id.email }}</field>
+        <field name="body_html" type="html">
+            <![CDATA[
+            <div style="font-family: Arial, sans-serif;">
+                <h2 style="color:#f0ad4e;">Library Fine Notice</h2>
+
+                <p>Dear <strong>{{ object.member_id.name }}</strong>,</p>
+
+                <p>A fine has been applied:</p>
+
+                <ul>
+                    <li><strong>Book:</strong> {{ object.borrowing_id.book_id.title }}</li>
+                    <li><strong>Amount:</strong> {{ '%.2f' % object.fine_amount }}</li>
+                    <li><strong>Reason:</strong> {{ object.fine_reason }}</li>
+                    <li><strong>Date:</strong> {{ object.create_date }}</li>
+                </ul>
+
+                <p>Please pay this fine to continue borrowing books.</p>
+            </div>
+            ]]>
+        </field>
+    </record>
+
+    <!-- Fine Payment Confirmation -->
+    <record id="email_template_fine_payment_confirmation" model="mail.template">
+        <field name="name">Library: Fine Payment Confirmation</field>
+        <field name="model_id" ref="model_library_fine"/>
+        <field name="subject">Fine Payment Confirmation - {{ object.borrowing_id.book_id.title }}</field>
+        <field name="email_from">{{ object.create_uid.email_formatted or user.email_formatted or 'noreply@library.com' }}</field>
+        <field name="email_to">{{ object.member_id.email }}</field>
+        <field name="body_html" type="html">
+            <![CDATA[
+            <div style="font-family: Arial, sans-serif;">
+                <h2 style="color:#5cb85c;">Payment Confirmation</h2>
+
+                <p>Dear <strong>{{ object.member_id.name }}</strong>,</p>
+
+                <p>Your fine payment has been received:</p>
+
+                <ul>
+                    <li><strong>Book:</strong> {{ object.borrowing_id.book_id.title }}</li>
+                    <li><strong>Amount Paid:</strong> {{ '%.2f' % object.fine_amount }}</li>
+                    <li><strong>Payment Date:</strong> {{ object.payment_date }}</li>
+                </ul>
+
+                <p>You may now continue borrowing books.</p>
+            </div>
+            ]]>
+        </field>
+    </record>
+</odoo>
