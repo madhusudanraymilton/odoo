@@ -158,13 +158,6 @@
                         </page>
                     </notebook>
                 </sheet>
-                <!--
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
-                -->
             </form>
         </field>
     </record>
@@ -199,7 +192,7 @@
         </field>
     </record>
     -->
-    <record id="view_library_borrowing_graph" model="ir.ui.view">
+    <!-- <record id="view_library_borrowing_graph" model="ir.ui.view">
         <field name="name">library.borrowing.graph</field>
         <field name="model">library.borrowing</field>
         <field name="arch" type="xml">
@@ -208,7 +201,7 @@
                 <field name="book_id" type="measure"/>
             </graph>
         </field>
-    </record>
+    </record> -->
 
 
 </odoo>

@@ -56,13 +56,6 @@
                         <field name="notes" placeholder="Add payment notes..."/>
                     </group>
                 </sheet>
-                <!--
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
-                -->
             </form>
         </field>
     </record>
@@ -92,7 +85,7 @@
     </record>
     -->
 
-    <record id="view_library_fine_graph" model="ir.ui.view">
+    <!-- <record id="view_library_fine_graph" model="ir.ui.view">
         <field name="name">library.fine.graph</field>
         <field name="model">library.fine</field>
         <field name="arch" type="xml">
@@ -101,7 +94,7 @@
                 <field name="fine_amount" type="measure"/>
             </graph>
         </field>
-    </record>
+    </record> -->
 
 
 
