@@ -48,8 +48,8 @@ class LibraryFine(models.Model):
     )
     fine_reason = fields.Text(
         string='Reason',
-        required=True,
-        tracking=True
+        tracking=True,
+        required=True
     )
     payment_status = fields.Selection(
         selection=[
@@ -65,7 +65,8 @@ class LibraryFine(models.Model):
     payment_date = fields.Date(
         string='Payment Date',
         tracking=True,
-        readonly=True
+        store=True,
+        # CHANGED: Removed required=True - payment_date should only be required when paid
     )
     created_date = fields.Date(
         string='Created Date',
@@ -81,6 +82,98 @@ class LibraryFine(models.Model):
         string='Color Index',
         compute='_compute_color'
     )
+
+    # CHANGED: Modified to return domain for borrowing_id dropdown
+    @api.onchange('member_id')
+    def _onchange_member_id(self):
+        """Clear borrowing_id when member changes and set domain for overdue borrowings"""
+        if not self.member_id:
+            self.borrowing_id = False
+            # CHANGED: Return empty domain when no member selected
+            return {'domain': {'borrowing_id': [('id', '=', False)]}}
+        
+        # CHANGED: Clear borrowing_id to force reselection
+        self.borrowing_id = False
+        
+        # CHANGED: Set domain to show only this member's overdue borrowings
+        domain = [
+            ('member_id', '=', self.member_id.id),
+            ('status', '=', 'borrowed'),
+            ('due_date', '<', fields.Date.today()),  # Actually overdue
+        ]
+        
+        return {'domain': {'borrowing_id': domain}}
+
+    # CHANGED: Complete rewrite - now only handles auto-fill when borrowing is selected
+    @api.onchange('borrowing_id')
+    def _onchange_borrowing_id(self):
+        """Auto-fill fine details when a borrowing record is selected"""
+        if not self.borrowing_id:
+            # CHANGED: Clear fields when borrowing is unselected
+            self.fine_amount = 0.0
+            self.fine_reason = False
+            self.notes = False
+            return
+        
+        borrowing = self.borrowing_id
+        
+        # CHANGED: Verify the selected borrowing is actually overdue
+        if borrowing.status != 'borrowed':
+            return {
+                'warning': {
+                    'title': _('Invalid Borrowing'),
+                    'message': _('The selected borrowing is not in borrowed status.')
+                }
+            }
+        
+        # CHANGED: Check if actually overdue using computed field or date comparison
+        if hasattr(borrowing, 'days_overdue'):
+            if borrowing.days_overdue <= 0:
+                return {
+                    'warning': {
+                        'title': _('Not Overdue'),
+                        'message': _('The selected borrowing is not overdue yet.')
+                    }
+                }
+        elif borrowing.due_date >= fields.Date.today():
+            return {
+                'warning': {
+                    'title': _('Not Overdue'),
+                    'message': _('The selected borrowing is not overdue yet.')
+                }
+            }
+        
+        # CHANGED: Auto-fill member_id from borrowing (in case it wasn't set)
+        self.member_id = borrowing.member_id
+        
+        # CHANGED: Auto-fill fine amount from borrowing's computed fine
+        self.fine_amount = borrowing.fine_amount if hasattr(borrowing, 'fine_amount') else 0.0
+        
+        # CHANGED: Generate descriptive fine reason
+        days_overdue = borrowing.days_overdue if hasattr(borrowing, 'days_overdue') else 0
+        self.fine_reason = _('Overdue fine for book "%s" (%d days late)') % (
+            borrowing.book_id.title, 
+            days_overdue
+        )
+        
+        # CHANGED: Generate detailed notes
+        self.notes = _(
+            'Borrow Date: %s\n'
+            'Due Date: %s\n'
+            'Return Date: %s\n'
+            'Days Overdue: %d'
+        ) % (
+            borrowing.borrow_date,
+            borrowing.due_date,
+            borrowing.return_date or '-',
+            days_overdue
+        )
+
+    @api.constrains('borrowing_id', 'member_id')
+    def _check_borrowing_member(self):
+        for fine in self:
+            if fine.borrowing_id and fine.borrowing_id.member_id != fine.member_id:
+                raise ValidationError(_('Borrowing does not belong to selected member.'))
 
     @api.model
     def create(self, vals):
@@ -130,7 +223,6 @@ class LibraryFine(models.Model):
                 'sticky': False,
             }
         }
-
     def action_send_payment_reminder(self):
         """Send payment reminder to member"""
         self.ensure_one()

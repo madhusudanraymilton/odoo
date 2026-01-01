@@ -52,9 +52,15 @@
                     </div>
                     <field name="photo" widget="image" class="oe_avatar"/>
                     <div class="oe_title">
-                        <label for="name" class="oe_edit_only"/>
+                        <label for="student_id" class="oe_edit_only"/>
                         <h1>
-                            <field name="name" placeholder="Member Name"/>
+                            <!--Student Id Add-->
+                            <field name="student_id"
+                                domain="[]"
+                                options="{'no_create': True}"
+                                />
+                            <!--End-->
+                            <field name="name" placeholder="Student name" invisible="True"/>
                         </h1>
                         <h3>
                             <field name="can_borrow" widget="boolean" readonly="1"/>
@@ -67,7 +73,7 @@
                             <field name="email" widget="email"/>
                             <field name="phone" widget="phone"/>
                             <field name="membership_type"/>
-                            <field name="user_id" options="{'no_create': True}"/>
+                            <!--<field name="user_id" options="{'no_create': True}"/>-->
                         </group>
                         <group>
                             <field name="membership_date"/>
@@ -104,13 +110,7 @@
                         </page>
                     </notebook>
                 </sheet>
-                <!--
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
-                -->
+                
             </form>
         </field>
     </record>

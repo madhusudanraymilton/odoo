@@ -24,6 +24,7 @@ This module provides a complete library management solution with:
         'base',
         'web',
         'mail',
+        'wk_school_management'
     ],
     'data': [
         # Security

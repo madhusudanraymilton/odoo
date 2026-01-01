@@ -11,6 +11,7 @@ class LibraryBorrowing(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'borrow_date desc'
 
+
     name = fields.Char(
         string='Reference',
         required=True,

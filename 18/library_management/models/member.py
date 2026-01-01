@@ -13,9 +13,15 @@ class LibraryMember(models.Model):
 
     name = fields.Char(
         string='Name',
-        required=True,
+        required=False,
         tracking=True,
         index=True
+    )
+    student_id = fields.Many2one(
+        comodel_name='student.student',
+        string='Student',
+        ondelete='restrict',
+        tracking=True
     )
     email = fields.Char(
         string='Email',
@@ -101,7 +107,17 @@ class LibraryMember(models.Model):
 
     _sql_constraints = [
         ('email_unique', 'UNIQUE(email)', 'Email must be unique!'),
+        ('student_unique', 'UNIQUE(student_id)', 'this student is already a library member'),
     ]
+
+    @api.onchange('student_id')
+    def _onchange_student_id(self):
+        if self.student_id:
+            self.name = self.student_id.name
+            self.email = self.student_id.email
+            self.phone = self.student_id.mobile
+            self.address = self.student_id.get_student_address()
+            self.membership_type = 'student'
 
     @api.depends('borrowing_ids.status')
     def _compute_active_borrowings(self):
