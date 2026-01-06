@@ -103,14 +103,14 @@
               name="Configuration"
               parent="menu_library_root"
               sequence="60"
-              groups="group_library_admin"/>
+              />
 
     <!-- Child menu for Configuration -->
-    <!--<menuitem id="menu_library_config_settings"
+    <menuitem id="menu_library_config_settings"
               name="Settings"
               parent="menu_library_configuration"
               action="action_library_config_settings"
               sequence="1"
-              groups="group_library_admin"/>-->
+              groups="group_library_admin"/>
 
 </odoo>

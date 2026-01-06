@@ -70,7 +70,7 @@
             </form>
         </field>
     </record>
-    <!--
+
     <record id="view_library_category_search" model="ir.ui.view">
         <field name="name">library.category.search</field>
         <field name="model">library.category</field>
@@ -82,13 +82,13 @@
                 <filter string="Active" name="active" domain="[('active', '=', True)]"/>
                 <filter string="Archived" name="archived" domain="[('active', '=', False)]"/>
                 <filter string="Top Level" name="top_level" domain="[('parent_id', '=', False)]"/>
-                <group expand="0" string="Group By">
+                <group expand="1" string="Group By">
                     <filter string="Parent Category" name="group_parent" context="{'group_by': 'parent_id'}"/>
                 </group>
             </search>
         </field>
     </record>
-    -->
+
 
 
 </odoo>

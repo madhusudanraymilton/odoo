@@ -162,7 +162,7 @@
         </field>
     </record>
 
-    <!--<record id="view_library_borrowing_search" model="ir.ui.view">
+    <record id="view_library_borrowing_search" model="ir.ui.view">
         <field name="name">library.borrowing.search</field>
         <field name="model">library.borrowing</field>
         <field name="arch" type="xml">
@@ -181,7 +181,7 @@
                 <separator/>
                 <filter string="Borrow Date" name="filter_borrow_date" date="borrow_date"/>
                 <filter string="Due Date" name="filter_due_date" date="due_date"/>
-                <group expand="0" string="Group By">
+                <group expand="1" string="Group By">
                     <filter string="Member" name="group_member" context="{'group_by': 'member_id'}"/>
                     <filter string="Book" name="group_book" context="{'group_by': 'book_id'}"/>
                     <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
@@ -191,7 +191,7 @@
             </search>
         </field>
     </record>
-    -->
+    
     <!-- <record id="view_library_borrowing_graph" model="ir.ui.view">
         <field name="name">library.borrowing.graph</field>
         <field name="model">library.borrowing</field>

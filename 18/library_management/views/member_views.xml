@@ -240,7 +240,6 @@
         </field>
     </record>
 
-    <!--
     <record id="view_library_member_search" model="ir.ui.view">
         <field name="name">library.member.search</field>
         <field name="model">library.member</field>
@@ -257,14 +256,14 @@
                 <filter string="Students" name="students" domain="[('membership_type', '=', 'student')]"/>
                 <filter string="Teachers" name="teachers" domain="[('membership_type', '=', 'teacher')]"/>
                 <filter string="Public" name="public" domain="[('membership_type', '=', 'public')]"/>
-                <group expand="0" string="Group By">
+                <group expand="1" string="Group By">
                     <filter string="Membership Type" name="group_type" context="{'group_by': 'membership_type'}"/>
                     <filter string="Membership Date" name="group_date" context="{'group_by': 'membership_date'}"/>
                 </group>
             </search>
         </field>
     </record>
-    -->
+
 
 
 

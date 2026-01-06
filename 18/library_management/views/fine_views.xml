@@ -59,7 +59,7 @@
             </form>
         </field>
     </record>
-    <!--
+
     <record id="view_library_fine_search" model="ir.ui.view">
         <field name="name">library.fine.search</field>
         <field name="model">library.fine</field>
@@ -74,7 +74,7 @@
                 <separator/>
                 <filter string="Created Date" name="filter_created_date" date="created_date"/>
                 <filter string="Payment Date" name="filter_payment_date" date="payment_date"/>
-                <group expand="0" string="Group By">
+                <group expand="1" string="Group By">
                     <filter string="Member" name="group_member" context="{'group_by': 'member_id'}"/>
                     <filter string="Payment Status" name="group_status" context="{'group_by': 'payment_status'}"/>
                     <filter string="Created Date" name="group_created_date" context="{'group_by': 'created_date'}"/>
@@ -83,7 +83,7 @@
             </search>
         </field>
     </record>
-    -->
+
 
     <!-- <record id="view_library_fine_graph" model="ir.ui.view">
         <field name="name">library.fine.graph</field>

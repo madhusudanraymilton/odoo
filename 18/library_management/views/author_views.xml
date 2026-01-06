@@ -64,7 +64,6 @@
 
 
     <!-- Search View -->
-    <!--
     <record id="view_library_author_search" model="ir.ui.view">
         <field name="name">library.author.search</field>
         <field name="model">library.author</field>
@@ -74,13 +73,12 @@
                 <field name="nationality"/>
                 <filter string="Active" name="active" domain="[('active', '=', True)]"/>
                 <filter string="Archived" name="archived" domain="[('active', '=', False)]"/>
-                <group expand="0" string="Group By">
+                <group expand="1" string="Group By">
                     <filter string="Nationality" name="group_nationality" context="{'group_by': 'nationality'}"/>
                 </group>
             </search>
         </field>
     </record>
-    -->
 
     <!-- Action -->
 

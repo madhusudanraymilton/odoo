@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Library Configuration Settings Form View -->
+    <record id="view_library_config_settings_form" model="ir.ui.view">
+        <field name="name">library.config.settings.form</field>
+        <field name="model">library.config.settings</field>
+        <field name="arch" type="xml">
+            <form string="Library Configuration" class="oe_form_configuration">
+                <header>
+                    <button name="execute" type="object" string="Save" class="oe_highlight"/>
+                    <button string="Discard" special="cancel"/>
+                </header>
+                <sheet>
+                    <div class="app_settings_block" data-string="Library Settings" data-key="library">
+                        <h2>Library Settings</h2>
+
+                        <!-- Fine Settings -->
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="id" invisible="1"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="fine_per_day" string="Fine Settings"/>
+                                    <div class="text-muted">
+                                        Configure fine amount and borrowing period
+                                    </div>
+                                    <div class="content-group mt16">
+                                        <div class="row">
+                                            <label for="fine_per_day" class="col-lg-3 o_light_label"/>
+                                            <field name="fine_per_day" widget="monetary" options="{'currency_field': false}"/>
+                                        </div>
+                                        <div class="row">
+                                            <label for="max_borrowing_days" class="col-lg-3 o_light_label"/>
+                                            <field name="max_borrowing_days"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Borrowing Limits -->
+                        <h2>Borrowing Limits</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane"></div>
+                                <div class="o_setting_right_pane">
+                                    <label for="student_max_books" string="Maximum Books Per Member Type"/>
+                                    <div class="text-muted">
+                                        Set the maximum number of books each member type can borrow
+                                    </div>
+                                    <div class="content-group mt16">
+                                        <div class="row">
+                                            <label for="student_max_books" class="col-lg-3 o_light_label"/>
+                                            <field name="student_max_books"/>
+                                        </div>
+                                        <div class="row">
+                                            <label for="teacher_max_books" class="col-lg-3 o_light_label"/>
+                                            <field name="teacher_max_books"/>
+                                        </div>
+                                        <div class="row">
+                                            <label for="public_max_books" class="col-lg-3 o_light_label"/>
+                                            <field name="public_max_books"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notification Settings -->
+                        <h2>Notifications</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="send_borrow_confirmation"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="send_borrow_confirmation"/>
+                                    <div class="text-muted">
+                                        Send email confirmation when a book is borrowed
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="send_return_confirmation"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="send_return_confirmation"/>
+                                    <div class="text-muted">
+                                        Send email confirmation when a book is returned
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="send_fine_notification"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="send_fine_notification"/>
+                                    <div class="text-muted">
+                                        Send email notification when fines are applied
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email Settings -->
+                        <h2>Email Settings</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane"></div>
+                                <div class="o_setting_right_pane">
+                                    <label for="library_email"/>
+                                    <div class="text-muted">
+                                        Email address used for library communications
+                                    </div>
+                                    <div class="content-group mt16">
+                                        <div class="row">
+                                            <label for="library_email" class="col-lg-3 o_light_label"/>
+                                            <field name="library_email" placeholder="library@example.com"/>
+                                        </div>
+                                        <div class="row">
+                                            <label for="overdue_reminder_days" class="col-lg-3 o_light_label" string="Reminder Days Before Due"/>
+                                            <field name="overdue_reminder_days"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Display Settings -->
+                        <h2>Display Settings</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="display_qr_codes"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="display_qr_codes"/>
+                                    <div class="text-muted">
+                                        Display QR codes on book records and cards
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="display_book_covers"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="display_book_covers"/>
+                                    <div class="text-muted">
+                                        Display book cover images in list and kanban views
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Library Configuration Settings Action -->
+    <record id="action_library_config_settings" model="ir.actions.act_window">
+        <field name="name">Library Settings</field>
+        <!--<field name="type">ir.actions.act_window</field>-->
+        <field name="res_model">library.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <!--<field name="context">{'module': 'library_management'}</field>-->
+    </record>
+
+    <!-- Menu Item -->
+    <!--<menuitem id="menu_library_config_settings"
+              name="Settings"
+              parent="library_management.menu_library_configuration"
+              action="action_library_config_settings"
+              sequence="100"/>-->
+</odoo>

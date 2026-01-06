@@ -31,3 +31,7 @@ access_return_book_wizard_admin,return.book.wizard.admin,model_return_book_wizar
 access_return_book_wizard_librarian,return.book.wizard.librarian,model_return_book_wizard,group_library_librarian,1,1,1,1
 access_return_book_wizard_line_admin,return.book.wizard.line.admin,model_return_book_wizard_line,group_library_admin,1,1,1,1
 access_return_book_wizard_line_librarian,return.book.wizard.line.librarian,model_return_book_wizard_line,group_library_librarian,1,1,1,1
+access_library_config_settings_admin, library.config.settings.admin,model_library_config_settings,group_library_admin,1,1,1,1
+access_library_config_settings_librarian, library.config.settings.librarian,model_library_config_settings,group_library_librarian,1,1,1,0
+access_library_config_settings_public, library.config.settings.librarian,model_library_config_settings,base.group_user,1,1,1,0
+access_library_config_settings_user, library.config.settings.librarian,model_library_config_settings,group_library_member,1,1,1,0

@@ -86,7 +86,6 @@
     </record>
 
     <!-- Search View -->
-    <!--
     <record id="view_library_book_search" model="ir.ui.view">
         <field name="name">library.book.search</field>
         <field name="model">library.book</field>
@@ -103,7 +102,7 @@
                 <filter string="Active" name="active" domain="[('active', '=', True)]"/>
                 <separator/>
                 <filter string="Published This Year" name="this_year" domain="[('publication_date', '&gt;=', context_today().strftime('%Y-01-01'))]"/>
-                <group expand="0" string="Group By">
+                <group expand="1" string="Group By">
                     <filter string="Publisher" name="group_publisher" context="{'group_by': 'publisher_id'}"/>
                     <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
                     <filter string="Publication Date" name="group_publication_date" context="{'group_by': 'publication_date'}"/>
@@ -111,7 +110,6 @@
             </search>
         </field>
     </record>
-    -->
     <!-- Action -->
 
         <!-- Modern Kanban View -->

@@ -73,7 +73,7 @@
     </record>
 
 
-    <!--
+
     <record id="view_library_publisher_search" model="ir.ui.view">
         <field name="name">library.publisher.search</field>
         <field name="model">library.publisher</field>
@@ -87,7 +87,5 @@
             </search>
         </field>
     </record>
-    -->
-
-
+    
 </odoo>

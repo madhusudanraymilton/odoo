@@ -30,6 +30,7 @@ This module provides a complete library management solution with:
         # Security
         'security/security.xml',
         'security/ir.model.access.csv',
+        'views/library_config_settings_views.xml',
 
         # Data
         # 'data/automated_actions.xml',
@@ -47,6 +48,7 @@ This module provides a complete library management solution with:
         'views/member_views.xml',
         'views/fine_views.xml',
         'views/borrowing_views.xml',
+        
         'views/dashboard.xml',
         'views/menu.xml',
 
